@@ -1,0 +1,283 @@
+#include <bits/stdc++.h>
+#include <windows.h>
+#include <conio.h>
+using namespace std;
+
+#pragma
+#define clrscr system("CLS");
+#define sz size()
+
+const vector < string > chest =
+{
+"     Choose one chest with potion",
+"",
+"  ________     ________     ________",
+" /        \\   /        \\   /        \\",
+"+----------+ +----------+ +----------+",
+"|          | |          | |          |",
+"|          | |          | |          |",
+"+----------+ +----------+ +----------+",
+"",
+"Press to choose:",
+"l - left",
+"m - middle",
+"r - right"
+};
+
+const vector < string > WithoutArmorBase =
+{
+"   xxx",
+"  xoxox",
+"   x-x    /",
+"  xIxIx   /",
+" x III x\\/",
+"x  -D-  x\\",
+"   I I",
+"   x x"
+};
+const vector < string > WithoutArmorAttack =
+{
+"   xxx",
+"  xoxox",
+"   xox    |",
+"  xIxIxxxx|----",
+" x III    |",
+"x  -D-",
+"   I I",
+"   x x"
+};
+const vector < string > WithoutArmorDefense =
+{
+"",
+"   xxx   |",
+"  x-x-x  |",
+"   xox  _|_",
+"  xIxIxxxx",
+" x III    ",
+"x  IDI",
+"   x x"
+};
+
+const vector < string > LightArmorBase =
+{
+"   ###",
+"  #o#o#",
+"  #x-x#    /",
+"  x#x#x   /",
+" x ### x\\/",
+"x  -D-  x\\",
+"   # #",
+"   x x"
+};
+const vector < string > LightArmorAttack =
+{
+"   ###",
+"  #o#o#",
+"  #xox#   |",
+"  x#x#xxxx|---",
+" x ###    |",
+"x  -D-",
+"   # #",
+"   x x"
+};
+const vector < string > LightArmorDefense =
+{
+"",
+"   ###   |",
+"  #-#-#  |",
+"  #xox# _|_",
+"  x#x#xxxx",
+" x ###    ",
+"x  #D#",
+"   x x"
+};
+
+const vector < string > MiddleArmorBase =
+{
+"  #####",
+"  #o#o#",
+"  #x-x#    /",
+"  #####   /",
+" # ### #\\/",
+"x  ###  x\\",
+"   # #",
+"   x x"
+};
+const vector < string > MiddleArmorAttack =
+{
+"  #####",
+"  #o#o#",
+"  #xox#   |",
+"  ######xx|---",
+" # ###    |",
+"x  ###",
+"   # #",
+"   x x"
+};
+const vector < string > MiddleArmorDefense =
+{
+"",
+"  #####  |",
+"  #-#-#  |",
+"  #xox# _|_",
+"  ######xx",
+" # ###    ",
+"x  ###",
+"   x x"
+};
+
+const vector < string > HeavyArmorBase =
+{
+"  #####",
+"  #o#o#",
+"  #####    /",
+"  #####   /",
+" # ### #\\/",
+"#  ###  #\\",
+"   # #",
+"   # #"
+};
+const vector < string > HeavyArmorAttack =
+{
+"  #####",
+"  #o#o#",
+"  #####   |",
+"  ########|---",
+" # ###    |",
+"#  ###",
+"   # #",
+"   # #"
+};
+const vector < string > HeavyArmorDefense =
+{
+"",
+"  #####  |",
+"  #-#-#  |",
+"  ##### _|_",
+"  ########",
+" # ###",
+"#  ###",
+"   # #"
+};
+
+const vector < string > SkeletonDefense =
+{
+"",
+"   xxx   |",
+"  x x x  |",
+"   III  _|_",
+"  /-I-----",
+" / -I-    ",
+"/  |I|",
+"   | |"
+};
+const vector < string > SkeletonBase =
+{
+"   xxx",
+"  x x x",
+"   III     /",
+"  /-I-\\   /",
+" / -I- \\\\/   ",
+"/   I   \\\\",
+"   | |",
+"   | |"
+};
+const vector < string > SkeletonAttack =
+{
+"   xxx",
+"  x x x",
+"   III    |",
+"  /-I-----|----",
+" / -I-    |",
+"/   I ",
+"   | |",
+"   | |"
+};
+
+const vector < string > RareSkeletonDefense =
+{
+"",
+"   ###   |",
+"  # x #  |",
+"  #III# _|_",
+"  ##I##---",
+" / ###    ",
+"/  #D#",
+"   | |"
+};
+const vector < string > RareSkeletonBase =
+{
+"   ###",
+"  # x #",
+"  #III#    /",
+"  ##I##   /",
+" / ### \\\\/   ",
+"/  -D-  \\\\",
+"   # #",
+"   | |"
+};
+const vector < string > RareSkeletonAttack =
+{
+"   ###",
+"  # x #",
+"  #III#   |",
+"  ##I##---|----",
+" / ###    |",
+"/  -D-",
+"   # #",
+"   | |"
+};
+
+const vector < string > LegendarySkeletonDefense =
+{
+"",
+"         |",
+"         |",
+"        _|_",
+"  ########",
+" # ###    ",
+"#  ###",
+"   # #"
+};
+const vector < string > LegendarySkeletonBase =
+{
+"",
+"",
+"           /",
+"  #####   /",
+" # ### #\\/   ",
+"#  ###  #\\",
+"   # #",
+"   # #"
+};
+const vector < string > LegendarySkeletonAttack =
+{
+"",
+"",
+"          |",
+"  ########|----",
+" # ###    |",
+"#  ###",
+"   # #",
+"   # #"
+};
+
+inline void wait(int timeWaiting)
+{
+    Sleep(timeWaiting);
+    clrscr;
+
+    return;
+}
+
+inline void writeError()
+{
+    wait(0);
+
+    cout << "    ### ATTENTION ###\n";
+    cout << "Your input ins incorrect\n";
+    cout << "------------------------|\n";
+
+    return;
+}
+
