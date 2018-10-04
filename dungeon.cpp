@@ -17,6 +17,7 @@ class pers
     public: int attack = 100;
     public: int typeArmor = 0;
     public: int talant = 0;
+    public: int mana = 0;
 
     public: Pictures pictures;
 
@@ -66,7 +67,17 @@ class pers
         if(fury) cout << "\t(fury)\n";
 
         cout << "health (armor): " << health << " (" << armor << ")\n";
-        cout << "attack (luck):  " << attack << " (" << luck << ")\n\n";
+        cout << "attack (luck):  " << attack << " (" << luck << ")\n";
+        cout << "mana: ";
+
+        for(int i = 1; i <= mana; i++)
+        {
+            cout << '*';
+
+            if(i%5 == 0) cout << ' ';
+        }
+
+        cout << "\n\n";
 
         return;
     }
@@ -100,7 +111,7 @@ class pers
     public: void generateMob(int level)
     {
         health += 10 * (level-1);
-        armor += level/20;
+        armor += level/20*3;
         attack += (level/5)*10;
         luck += level/20;
 
@@ -155,12 +166,15 @@ class Inventory
 
         while(1)
         {
+            playerCurent.writePicture(2);
+            playerCurent.writeStats(fury);
+
             cout << "Inventory\n\n";
 
             cout << "Name:          Count: \n";
-            cout << "heal   (+20%) - " << cntHeal << "\n";
+            cout << "heal   (+10%) - " << cntHeal << "\n";
             cout << "armor    (+2) - " << cntArmor << "\n";
-            cout << "attack (+20%) - " << cntAttack << "\n";
+            cout << "attack (+10%) - " << cntAttack << "\n";
             cout << "luck     (+2) - " << cntLuck << "\n\n";
 
             cout << "Press to continue:\n";
@@ -181,7 +195,16 @@ class Inventory
                         writeError();
                     }else
                     {
-                        playerCurent.health += playerBasic.health * 0.2;
+                        playerCurent.health += playerBasic.health * 0.10;
+
+                        if(fury)
+                        {
+                            fury = 0;
+                            playerCurent.attack /= 1.5;
+                            playerCurent.armor /= 1.5;
+                            playerCurent.luck --;
+                        }
+
                         cntHeal --;
                         wait(0);
                     }
@@ -205,7 +228,7 @@ class Inventory
                         writeError();
                     }else
                     {
-                        playerCurent.attack +=  playerBasic.attack * 0.2;
+                        playerCurent.attack +=  playerBasic.attack * 0.10;
                         cntAttack --;
                         wait(0);
                     }
@@ -254,7 +277,7 @@ class Inventory
 
                     wait(0);
                     cout << "You got one more HEAL potion\n";
-                    wait(3000);
+                    wait(2000);
 
                     return;
                 }
@@ -264,7 +287,7 @@ class Inventory
 
                     wait(0);
                     cout << "You got one more ARMOR potion\n";
-                    wait(3000);
+                    wait(2000);
 
                     return;
                 }
@@ -274,7 +297,7 @@ class Inventory
 
                     wait(0);
                     cout << "You got one more ATTACK potion\n";
-                    wait(3000);
+                    wait(2000);
 
                     return;
                 }
@@ -284,7 +307,7 @@ class Inventory
 
                     wait(0);
                     cout << "You got one more LUCK potion\n";
-                    wait(3000);
+                    wait(2000);
 
                     return;
                 }
@@ -352,7 +375,7 @@ inline int updateStats()
         cout << "\nYou have " << player.talant << " talant(s)\n\n";
         cout << "Press to update:\n";
         cout << "\t1 - +100 health (cost 1 talant)\n";
-        cout << "\t2 -   +1  armor (cost 3 talant)\n";
+        cout << "\t2 -   +3  armor (cost 3 talant)\n";
         cout << "\t3 -  +10 attack (cost 1 talant)\n";
         cout << "\t4 -   +1   luck (cost 3 talant)\n\n";
 
@@ -386,7 +409,7 @@ inline int updateStats()
                 }else
                 {
                     player.talant -= 3;
-                    player.armor ++;
+                    player.armor += 3;
                     wait(0);
                 }
             }; break;
@@ -480,6 +503,8 @@ inline bool fight(int level)
         cout << "Press to continue:\n";
         cout << "\ta - attack\n";
         cout << "\td - defense\n";
+        cout << "\tq - make 50 extra damage (cost 5 mana)\n";
+        cout << "\te - make 2 extra luck (cost 5 mana)\n";
         cout << "\ti - inventory\n";
 
         input = getch();
@@ -494,6 +519,8 @@ inline bool fight(int level)
                 move(playerLocal, 2, mobLocal, 2, level);
 
                 if(mobLocal.health == 0) return 1;
+
+                playerLocal.mana ++;
             }; break;
             case 'd':
             {
@@ -501,12 +528,49 @@ inline bool fight(int level)
                 move(playerLocal, 3, mobLocal, 2, level);
                 playerLocal.defense();
                 move(playerLocal, 2, mobLocal, 2, level);
+
+                playerLocal.mana += 2;
             }; break;
             case 'i':
             {
                 inventory.potion(player, playerLocal);
                 wait(0);
                 continue;
+            }; break;
+            case 'q':
+            {
+                if(playerLocal.mana < 5)
+                {
+                    writeError();
+                    continue;
+                }else
+                {
+                    playerLocal.mana -= 5;
+                    mobLocal.health -= min(mobLocal.health, 50);
+
+                    wait(0);
+
+                    if(mobLocal.health == 0) return 1;
+
+                    continue;
+                }
+            }; break;
+            case 'e':
+            {
+                if(playerLocal.mana < 5)
+                {
+                    writeError();
+                    continue;
+                }else
+                {
+                    playerLocal.mana -= 5;
+
+                    playerLocal.luck += 2;
+
+                    wait(0);
+
+                    continue;
+                }
             }; break;
             default:
             {
@@ -574,9 +638,9 @@ inline void hello()
     cout << "\tConsole Dungeon\n\n";
     cout << "Creator:\n";
     cout << "\tBagInCode\n";
-    cout << "\tBugInSystem\n\n";
+    cout << "\tBugInSystem\n";
     cout << "\tReeWorld\n";
-    cout << "\tTheDarkness\n";
+    cout << "\tTheDarkness\n\n";
     cout << "Please, check that your console is full screen\n";
     cout << "If you need help - press \'h\', if not - press any other key\n";
 
@@ -607,6 +671,10 @@ void cheat()
 
         cout << "You want to begin with count of talants: ";
         cin >> player.talant;
+        cout << "\n";
+
+        cout << "You want to begin each level with count of mana: ";
+        cin >> player.mana;
         cout << "\n";
 
         cout << "You want to begin with count of Heal potion: ";
