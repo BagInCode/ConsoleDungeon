@@ -30,6 +30,8 @@ class pers
         armor -= typeArmor;
         typeArmor = type;
         armor += typeArmor;
+        
+        armor = min(armor, 50);
 
         return;
     }
@@ -103,7 +105,7 @@ class pers
     {
         valAttack = ((100 - armor)*valAttack)/100;
 
-        health = health - min(health, valAttack);
+        health = health - min(health, max(0, valAttack));
 
         return;
     }
@@ -136,6 +138,8 @@ class pers
         {
             makePicture(SkeletonBase, SkeletonAttack, SkeletonDefense, 0);
         }
+        
+        armor = min(armor, 50);
 
         return;
     }
@@ -375,7 +379,7 @@ inline int updateStats()
         cout << "\nYou have " << player.talant << " talant(s)\n\n";
         cout << "Press to update:\n";
         cout << "\t1 - +100 health (cost 1 talant)\n";
-        cout << "\t2 -   +3  armor (cost 3 talant)\n";
+        cout << "\t2 -   +3  armor (cost 3 talant) (max count of armor - 50)\n";
         cout << "\t3 -  +10 attack (cost 1 talant)\n";
         cout << "\t4 -   +1   luck (cost 3 talant)\n\n";
 
@@ -403,13 +407,14 @@ inline int updateStats()
             }; break;
             case '2':
             {
-                if(player.talant < 3)
+                if(player.talant < 3 || player.armor == 50)
                 {
                     writeError();
                 }else
                 {
                     player.talant -= 3;
                     player.armor += 3;
+                    player.armor = min(player.armor, 50);
                     wait(0);
                 }
             }; break;
