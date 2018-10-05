@@ -14,341 +14,402 @@ struct Pictures
 
 class pers
 {
-public:
-	string nickName;
-	int health = 1000;
-	int armor = 0;
-	int luck = 1;
-	int attack = 100;
-	int typeArmor = 0;
-	int talant = 0;
-	int mana = 0;
+    public:
+        string nickName;
+        int health = 1000;
+        int armor = 0;
+        int luck = 1;
+        int attack = 100;
+        int typeArmor = 0;
+        int talant = 0;
+        int mana = 0;
 
-public: Pictures pictures;
+    public: Pictures pictures;
 
-public: inline void makePicture(vector < string > Basick, vector < string > Attack, vector < string > Defense, int type)
-{
-			pictures.pictureAttack = Attack;
-			pictures.pictureBasick = Basick;
-			pictures.pictureDefense = Defense;
+    public: inline void makePicture(vector < string > Basick, vector < string > Attack, vector < string > Defense, int type)
+    {
+        pictures.pictureAttack = Attack;
+        pictures.pictureBasick = Basick;
+        pictures.pictureDefense = Defense;
 
-			armor -= typeArmor;
-			typeArmor = type;
-			armor += typeArmor;
+        armor -= typeArmor*5;
+        typeArmor = type;
+        armor += typeArmor*5;
 
-			armor = min(armor, 50);
+        if(armor > 50)
+        {
+            talant += armor - 50;
+            armor = 50;
+        }
 
-			return;
-}
+        return;
+    }
 
-public: inline void writePicture(int typePicture)
-{
-			if (typePicture == 1)
-			{
-				for (int i = 0; i < pictures.pictureAttack.sz; i++)
-				{
-					cout << pictures.pictureAttack[i] << "\n";
-				}
-			}
-			else
-			if (typePicture == 2)
-			{
-				for (int i = 0; i < pictures.pictureBasick.sz; i++)
-				{
-					cout << pictures.pictureBasick[i] << "\n";
-				}
-			}
-			else
-			{
-				for (int i = 0; i < pictures.pictureDefense.sz; i++)
-				{
-					cout << pictures.pictureDefense[i] << "\n";
-				}
-			}
+    public: inline void writePicture(int typePicture)
+    {
+        if (typePicture == 1)
+        {
+            for (int i = 0; i < pictures.pictureAttack.sz; i++)
+            {
+                cout << pictures.pictureAttack[i] << "\n";
+            }
+        }
+        else
+        if (typePicture == 2)
+        {
+            for (int i = 0; i < pictures.pictureBasick.sz; i++)
+            {
+                cout << pictures.pictureBasick[i] << "\n";
+            }
+        }
+        else
+        {
+            for (int i = 0; i < pictures.pictureDefense.sz; i++)
+            {
+                cout << pictures.pictureDefense[i] << "\n";
+            }
+        }
 
-			return;
-}
+        return;
+    }
 
-public: inline void writeStats(bool fury = 0)
-{
-			cout << "------------------------|\n";
-			cout << "\n\t" << nickName << "\n\n";
-			if (fury) cout << "\t(fury)\n";
+    public: inline void writeStats(bool fury = 0)
+    {
+        cout << "------------------------|\n";
+        cout << "\n\t" << nickName << "\n\n";
+        if (fury) cout << "\t(fury)\n";
 
-			cout << "health (armor): " << health << " (" << armor << ")\n";
-			cout << "attack (luck):  " << attack << " (" << luck << ")\n";
-			cout << "mana: ";
+        cout << "health (armor): " << health << " (" << armor << ")\n";
+        cout << "attack (luck):  " << attack << " (" << luck << ")\n";
+        cout << "mana: ";
 
-			for (int i = 1; i <= mana; i++)
-			{
-				cout << '*';
+        for (int i = 1; i <= mana; i++)
+        {
+            cout << '*';
 
-				if (i % 5 == 0) cout << ' ';
-			}
+            if (i % 5 == 0) cout << ' ';
+        }
 
-			cout << "\n\n";
+        cout << "\n\n";
 
-			return;
-}
+        return;
+    }
 
-public: inline int calcAttack()
-{
-			srand(time(0));
+    public: inline int calcAttack()
+    {
+        srand(time(0));
 
-			int valAttack;
-			int maxPersent = 0;
+        int valAttack;
+        int maxPersent = 0;
 
-			for (int i = 1; i <= luck; i++)
-			{
-				maxPersent = max(maxPersent, (rand() % 101));
-			}
+        for (int i = 1; i <= luck; i++)
+        {
+            maxPersent = max(maxPersent, (rand() % 101));
+        }
 
-			valAttack = (attack*maxPersent) / 100;
+        valAttack = (attack*maxPersent) / 100;
 
-			return valAttack;
-}
+        return valAttack;
+    }
 
-public: void calcDamage(int valAttack)
-{
-			valAttack = ((100 - armor)*valAttack) / 100;
+    public: void calcDamage(int valAttack)
+    {
+        valAttack = ((100 - armor)*valAttack) / 100;
 
-			health = health - min(health, max(0, valAttack));
+        health = health - min(health, max(0, valAttack));
 
-			return;
-}
+        return;
+    }
 
-public: void generateMob(int level)
-{
-			health += 10 * (level - 1);
-			armor += level / 20 * 3;
-			attack += (level / 5) * 10;
-			luck += level / 20;
+    public: void generateMob(int level)
+    {
+        health += 10 * (level - 1);
+        armor += level / 20 * 3;
+        attack += (level / 5) * 10;
+        luck += level / 20;
 
-			if (level % 20 == 0)
-			{
-				health *= 1.25;
-				armor *= 1.25;
-				attack *= 1.25;
-				luck *= 1.25;
+        if (level % 20 == 0)
+        {
+            health *= 1.25;
+            armor *= 1.25;
+            attack *= 1.25;
+            luck *= 1.25;
 
-				makePicture(LegendarySkeletonBase, LegendarySkeletonAttack, LegendarySkeletonDefense, 0);
-			}
-			else
-			if (level % 5 == 0)
-			{
-				health *= 1.15;
-				armor *= 1.15;
-				attack *= 1.15;
-				luck *= 1.15;
+            makePicture(LegendarySkeletonBase, LegendarySkeletonAttack, LegendarySkeletonDefense, 0);
+        }
+        else
+        if (level % 5 == 0)
+        {
+            health *= 1.15;
+            armor *= 1.15;
+            attack *= 1.15;
+            luck *= 1.15;
 
-				makePicture(RareSkeletonBase, RareSkeletonAttack, RareSkeletonDefense, 0);
-			}
-			else
-			{
-				makePicture(SkeletonBase, SkeletonAttack, SkeletonDefense, 0);
-			}
+            makePicture(RareSkeletonBase, RareSkeletonAttack, RareSkeletonDefense, 0);
+        }
+        else
+        {
+            makePicture(SkeletonBase, SkeletonAttack, SkeletonDefense, 0);
+        }
 
-			armor = min(armor, 50);
+        if(armor > 50)
+        {
+            health += 100*(armor - 50);
+            armor = 50;
+        }
 
-			return;
-}
+        return;
+    }
 
-public: void defense()
-{
-			luck++;
-			return;
-}
+    public: void defense()
+    {
+        luck++;
+        return;
+    }
 
-};
-
-class Inventory
-{
-public: int cntHeal = 0;
-public: int cntArmor = 0;
-public: int cntLuck = 0;
-public: int cntAttack = 0;
-
-public: bool heavyArmor = 0;
-public: bool middleArmor = 0;
-public: bool lightArmor = 0;
-
-		inline void writeInventory()
-		{
-			cout << "Inventory\n\n";
-			cout << "Name:          Count: \n";
-			cout << " heal   (+10%) - " << cntHeal << "\n";
-			cout << " armor    (+2) - " << cntArmor << "\n";
-			cout << " attack (+10%) - " << cntAttack << "\n";
-			cout << " luck     (+2) - " << cntLuck << "\n\n";
-		}
-
-		inline void potion(pers & playerBasic, pers & playerCurent)
-		{
-			char input;
-
-			wait(0);
-
-			while (1)
-			{
-				playerCurent.writePicture(2);
-				playerCurent.writeStats(fury);
-
-				cout << "Inventory\n\n";
-
-				cout << "Name:          Count: \n";
-				cout << " heal   (+10%) - " << cntHeal << "\n";
-				cout << " armor    (+2) - " << cntArmor << "\n";
-				cout << " attack (+10%) - " << cntAttack << "\n";
-				cout << " luck     (+2) - " << cntLuck << "\n\n";
-
-				cout << "Press to continue:\n";
-				cout << "\t1 - heal\n";
-				cout << "\t2 - armor\n";
-				cout << "\t3 - attack\n";
-				cout << "\t4 - luck\n";
-				cout << "\tb - back to the battle\n";
-
-				input = getch();
-
-				switch (input)
-				{
-				case '1':
-				{
-							if (cntHeal < 1)
-							{
-								writeError();
-							}
-							else
-							{
-								playerCurent.health += playerBasic.health * 0.10;
-
-								if (fury)
-								{
-									fury = 0;
-									playerCurent.attack /= 1.5;
-									playerCurent.armor /= 1.5;
-									playerCurent.luck--;
-								}
-
-								cntHeal--;
-								wait(0);
-							}
-				}; break;
-				case '2':
-				{
-							if (cntArmor < 1)
-							{
-								writeError();
-							}
-							else
-							{
-								playerCurent.armor += 2;
-								cntArmor--;
-								wait(0);
-							}
-				}; break;
-				case '3':
-				{
-							if (cntAttack < 1)
-							{
-								writeError();
-							}
-							else
-							{
-								playerCurent.attack += playerBasic.attack * 0.10;
-								cntAttack--;
-								wait(0);
-							}
-				}; break;
-				case '4':
-				{
-							if (cntLuck < 1)
-							{
-								writeError();
-							}
-							else
-							{
-								playerCurent.luck += 2;
-								cntLuck--;
-								wait(0);
-							}
-				}; break;
-				case 'b': return; break;
-				default: writeError(); break;
-				}
-			}
-		}
-
-		inline void chooseChest()
-		{
-			wait(0);
-
-			char input;
-			srand(time(0));
-
-			while (1)
-			{
-				for (int i = 0; i < chest.sz; i++)
-				{
-					cout << chest[i] << "\n";
-				}
-
-				input = getch();
-
-				if (input == 'l' || input == 'r' || input == 'm')
-				{
-					int val = rand() % 4;
-
-					if (val == 0)
-					{
-						cntHeal++;
-
-						wait(0);
-						cout << "You got one more HEAL potion\n";
-						wait(2000);
-
-						return;
-					}
-					if (val == 1)
-					{
-						cntArmor++;
-
-						wait(0);
-						cout << "You got one more ARMOR potion\n";
-						wait(2000);
-
-						return;
-					}
-					if (val == 2)
-					{
-						cntAttack++;
-
-						wait(0);
-						cout << "You got one more ATTACK potion\n";
-						wait(2000);
-
-						return;
-					}
-					if (val == 3)
-					{
-						cntLuck++;
-
-						wait(0);
-						cout << "You got one more LUCK potion\n";
-						wait(2000);
-
-						return;
-					}
-				}
-				else
-				{
-					writeError();
-				}
-			}
-		}
 };
 
 pers player, mob;
+
+class Inventory
+{
+    public: int cntHeal = 0;
+    public: int cntArmor = 0;
+    public: int cntLuck = 0;
+    public: int cntAttack = 0;
+
+    public: int cntBigHeal = 0;
+    public: int cntBigArmor = 0;
+    public: int cntBigLuck = 0;
+    public: int cntBigAttack = 0;
+
+    public: bool heavyArmor = 0;
+    public: bool middleArmor = 0;
+    public: bool lightArmor = 0;
+
+    inline void writeInventory()
+    {
+        cout << "Inventory\n\n";
+        cout << "Name:          Count: \n";
+        cout << " heal   (+10%) - " << cntHeal << "\n";
+        cout << " armor    (+2) - " << cntArmor << "\n";
+        cout << " attack (+10%) - " << cntAttack << "\n";
+        cout << " luck     (+2) - " << cntLuck << "\n\n";
+    }
+
+    inline void potion(pers & playerBasic, pers & playerCurent)
+    {
+        char input;
+
+        wait(0);
+
+        while (1)
+        {
+            playerCurent.writePicture(2);
+            playerCurent.writeStats(fury);
+
+            cout << "Inventory\n\n";
+
+            cout << "Name:          Count: \n";
+            cout << " heal   (+10%) - " << cntHeal << "\n";
+            cout << " armor    (+2) - " << cntArmor << "\n";
+            cout << " attack (+10%) - " << cntAttack << "\n";
+            cout << " luck     (+2) - " << cntLuck << "\n\n";
+
+            cout << "Press to continue:\n";
+            cout << "\t1 - heal\n";
+            cout << "\t2 - armor\n";
+            cout << "\t3 - attack\n";
+            cout << "\t4 - luck\n";
+            cout << "\tb - back to the battle\n";
+
+            input = getch();
+
+            switch (input)
+            {
+                case '1':
+				{
+                    if (cntHeal < 1)
+                    {
+                        writeError();
+                    }
+                    else
+                    {
+                        playerCurent.health += playerBasic.health * 0.10;
+
+                        if (fury)
+                        {
+                            fury = 0;
+                            playerCurent.attack /= 1.5;
+                            playerCurent.armor /= 1.5;
+                            playerCurent.luck--;
+                        }
+
+                        cntHeal--;
+                        wait(0);
+                    }
+				}; break;
+				case '2':
+				{
+                    if (cntArmor < 1)
+                    {
+                        writeError();
+                    }
+                    else
+                    {
+                        playerCurent.armor += 2;
+                        cntArmor--;
+                        wait(0);
+                    }
+				}; break;
+				case '3':
+				{
+                    if (cntAttack < 1)
+                    {
+                        writeError();
+                    }
+                    else
+                    {
+                        playerCurent.attack += playerBasic.attack * 0.10;
+                        cntAttack--;
+                        wait(0);
+                    }
+				}; break;
+				case '4':
+				{
+                    if (cntLuck < 1)
+                    {
+                        writeError();
+                    }
+                    else
+                    {
+                        playerCurent.luck += 2;
+                        cntLuck--;
+                        wait(0);
+                    }
+				}; break;
+				case 'b': return; break;
+				default: writeError(); break;
+            }
+        }
+    }
+
+    inline void chooseChest()
+    {
+        wait(0);
+
+        char input;
+        srand(time(0));
+
+        while (1)
+        {
+            for (int i = 0; i < chest.sz; i++)
+            {
+                cout << chest[i] << "\n";
+            }
+
+            input = getch();
+
+            if (input == 'l' || input == 'r' || input == 'm')
+            {
+                int val;
+
+                if(!heavyArmor)
+                {
+                    val = rand() % 9;
+                }else
+                {
+                    val = rand() % 4;
+                }
+
+                if(val == 8)
+                {
+                    if(!lightArmor)
+                    {
+                        wait();
+
+                        player.makePicture(LightArmorBase, LightArmorAttack, LightArmorDefense, 1);
+                        lightArmor = 1;
+
+                        cout << "You got now Light Armor!\n";
+                        wait(1500);
+
+                        return;
+                    }else
+                    if(!middleArmor)
+                    {
+                        wait();
+
+                        player.makePicture(MiddleArmorBase, MiddleArmorAttack, MiddleArmorDefense, 2);
+                        middleArmor = 1;
+
+                        cout << "You got now Middle Armor!\n";
+                        wait(1500);
+
+                        return;
+                    }else
+                    if(!heavyArmor)
+                    {
+                        wait();
+
+                        player.makePicture(HeavyArmorBase, HeavyArmorAttack, HeavyArmorDefense, 3);
+                        heavyArmor = 1;
+
+                        cout << "You got now Heavy Armor!\n";
+                        wait(1500);
+
+                        return;
+                    }
+                }else
+                if (val%4 == 0)
+                {
+                    cntHeal++;
+
+                    wait(0);
+                    cout << "You got one more HEAL potion\n";
+                    wait(2000);
+
+                    return;
+                }else
+                if (val%4 == 1)
+                {
+                    cntArmor++;
+
+                    wait(0);
+                    cout << "You got one more ARMOR potion\n";
+                    wait(2000);
+
+                    return;
+                }else
+                if (val%4 == 2)
+                {
+                    cntAttack++;
+
+                    wait(0);
+                    cout << "You got one more ATTACK potion\n";
+                    wait(2000);
+
+                    return;
+                }else
+                if (val%4 == 3)
+                {
+                    cntLuck++;
+
+                    wait(0);
+                    cout << "You got one more LUCK potion\n";
+                    wait(2000);
+
+                    return;
+                }
+            }
+            else
+            {
+                writeError();
+            }
+        }
+    }
+};
+
 Inventory inventory;
 
 inline int menu(int nexLevel)
@@ -383,11 +444,11 @@ inline int menu(int nexLevel)
 
 		switch (input)
 		{
-		case 'n': return 1; break;
-		case 'u': return 2; break;
+            case 'n': return 1; break;
+            case 'u': return 2; break;
 			///case 'c': return 3; break;        ### change weapon
-		case 'e': myExit(0); break;
-		default: writeError(); break;
+            case 'e': myExit(0); break;
+            default: writeError(); break;
 		}
 	}
 }
@@ -420,64 +481,64 @@ inline int updateStats()
 
 		switch (input)
 		{
-		case '1':
-		{
-					if (player.talant < 1)
-					{
-						writeError();
-					}
-					else
-					{
-						player.talant--;
-						player.health += 100;
-						wait(0);
-					}
-		}; break;
-		case '2':
-		{
-					if (player.talant < 3 || player.armor == 50)
-					{
-						writeError();
-					}
-					else
-					{
-						player.talant -= 3;
-						player.armor += 3;
-						player.armor = min(player.armor, 50);
-						wait(0);
-					}
-		}; break;
-		case '3':
-		{
-					if (player.talant < 1)
-					{
-						writeError();
-					}
-					else
-					{
-						player.talant--;
-						player.attack += 10;
-						wait(0);
-					}
-		}; break;
-		case '4':
-		{
-					if (player.talant < 3)
-					{
-						writeError();
-					}
-					else
-					{
-						player.talant -= 3;
-						player.luck++;
-						wait(0);
-					}
-		}; break;
-		case 'n': return 1; break;
-		case 'm': return 0; break;
+            case '1':
+            {
+                if (player.talant < 1)
+                {
+                    writeError();
+                }
+                else
+                {
+                    player.talant--;
+                    player.health += 100;
+                    wait(0);
+                }
+            }; break;
+            case '2':
+            {
+                if (player.talant < 3 || player.armor == 50)
+                {
+                    writeError();
+                }
+                else
+                {
+                    player.talant -= 3;
+                    player.armor += 3;
+                    player.armor = min(player.armor, 50);
+                    wait(0);
+                }
+            }; break;
+            case '3':
+            {
+                if (player.talant < 1)
+                {
+                    writeError();
+                }
+                else
+                {
+                    player.talant--;
+                    player.attack += 10;
+                    wait(0);
+                }
+            }; break;
+            case '4':
+            {
+                if (player.talant < 3)
+                {
+                    writeError();
+                }
+                else
+                {
+                    player.talant -= 3;
+                    player.luck++;
+                    wait(0);
+                }
+            }; break;
+            case 'n': return 1; break;
+            case 'm': return 0; break;
 			///case 'c': return 2; break;        ### change weapon
-		case 'e': myExit(0); break;
-		default: writeError(); break;
+            case 'e': myExit(0); break;
+            default: writeError(); break;
 		}
 	}
 }
@@ -548,74 +609,74 @@ inline bool fight(int level)
 
 		switch (input)
 		{
-		case 'a':
-		{
-					move(playerLocal, 2, mobLocal, 2, level);
-					move(playerLocal, 1, mobLocal, 2, level);
-					mobLocal.calcDamage(playerLocal.calcAttack());
-					move(playerLocal, 2, mobLocal, 2, level);
+            case 'a':
+            {
+                move(playerLocal, 2, mobLocal, 2, level);
+                move(playerLocal, 1, mobLocal, 2, level);
+                mobLocal.calcDamage(playerLocal.calcAttack());
+                move(playerLocal, 2, mobLocal, 2, level);
 
-					if (mobLocal.health == 0) return 1;
+                if (mobLocal.health == 0) return 1;
 
-					playerLocal.mana++;
-		}; break;
-		case 'd':
-		{
-					move(playerLocal, 2, mobLocal, 2, level);
-					move(playerLocal, 3, mobLocal, 2, level);
-					playerLocal.defense();
-					move(playerLocal, 2, mobLocal, 2, level);
+                playerLocal.mana++;
+            }; break;
+            case 'd':
+            {
+                move(playerLocal, 2, mobLocal, 2, level);
+                move(playerLocal, 3, mobLocal, 2, level);
+                playerLocal.defense();
+                move(playerLocal, 2, mobLocal, 2, level);
 
-					playerLocal.mana += 2;
-		}; break;
-		case 'i':
-		{
-					inventory.potion(player, playerLocal);
-					wait(0);
-					continue;
-		}; break;
-		case 'q':
-		{
-					if (playerLocal.mana < 5)
-					{
-						writeError();
-						continue;
-					}
-					else
-					{
-						playerLocal.mana -= 5;
-						mobLocal.health -= min(mobLocal.health, 50);
+                playerLocal.mana += 2;
+            }; break;
+            case 'i':
+            {
+                inventory.potion(player, playerLocal);
+                wait(0);
+                continue;
+            }; break;
+            case 'q':
+            {
+                if (playerLocal.mana < 5)
+                {
+                    writeError();
+                    continue;
+                }
+                else
+                {
+                    playerLocal.mana -= 5;
+                    mobLocal.health -= min(mobLocal.health, 50);
 
-						wait(0);
+                    wait(0);
 
-						if (mobLocal.health == 0) return 1;
+                    if (mobLocal.health == 0) return 1;
 
-						continue;
-					}
-		}; break;
-		case 'e':
-		{
-					if (playerLocal.mana < 5)
-					{
-						writeError();
-						continue;
-					}
-					else
-					{
-						playerLocal.mana -= 5;
+                    continue;
+                }
+            }; break;
+            case 'e':
+            {
+                if (playerLocal.mana < 5)
+                {
+                    writeError();
+                    continue;
+                }
+                else
+                {
+                    playerLocal.mana -= 5;
 
-						playerLocal.luck += 2;
+                    playerLocal.luck += 2;
 
-						wait(0);
+                    wait(0);
 
-						continue;
-					}
-		}; break;
-		default:
-		{
-				   writeError();
-				   continue;
-		} break;
+                    continue;
+                }
+            }; break;
+            default:
+            {
+                writeError();
+                continue;
+            } break;
 		}
 
 		srand(time(0));
@@ -694,6 +755,7 @@ inline void hello()
 void cheat()
 {
 	string password;
+	int typeOfArmor;
 
 	wait(0);
 
@@ -706,6 +768,36 @@ void cheat()
 		cout << "You want to begin from level: ";
 		cin >> level;
 		cout << "\n";
+
+		cout << "You want get type armor (0 - without, 1 - light, 2 - middle, 3 - heavy): ";
+		cin >> typeOfArmor;
+		cout << "\n";
+
+		switch(typeOfArmor)
+		{
+            case 0:
+            {
+                player.makePicture(WithoutArmorBase, WithoutArmorAttack, WithoutArmorDefense, typeOfArmor);
+            };break;
+            case 1:
+            {
+                player.makePicture(LightArmorBase, LightArmorAttack, LightArmorDefense, typeOfArmor);
+                inventory.lightArmor = 1;
+            };break;
+            case 2:
+            {
+                player.makePicture(MiddleArmorBase, MiddleArmorAttack, MiddleArmorDefense, typeOfArmor);
+                inventory.lightArmor = 1;
+                inventory.middleArmor = 1;
+            }; break;
+            case 3:
+            {
+                player.makePicture(HeavyArmorBase, HeavyArmorAttack, HeavyArmorDefense, typeOfArmor);
+                inventory.lightArmor = 1;
+                inventory.middleArmor = 1;
+                inventory.heavyArmor = 1;
+            }
+		}
 
 		cout << "You want to begin with count of talants: ";
 		cin >> player.talant;
@@ -808,8 +900,7 @@ bool tryLoad(Inventory &inv, pers &per)
 			per.typeArmor = stat;
 			if (stat == 0)
 			{
-				//per.makePicture(WithoutArmorBase, WithoutArmorAttack, WithoutArmorDefense, stat);
-				per.makePicture(LightArmorBase, LightArmorAttack, LightArmorDefense, stat);//delete
+				per.makePicture(WithoutArmorBase, WithoutArmorAttack, WithoutArmorDefense, stat);
 			}
 			else if (stat == 1)
 			{
@@ -967,37 +1058,38 @@ void myExit(int inf=0)
 
 int main()
 {
-	player.makePicture(LightArmorBase, LightArmorAttack, LightArmorDefense, 0);
+	player.makePicture(WithoutArmorBase, WithoutArmorAttack, WithoutArmorDefense, 0);
 
 	hello();
 	askPreviousSave();
 	cheat();
-	
+
 	int function = 0;
 
 	while (1)
 	{
 		switch (function)
 		{
-		case 0: function = menu(level); break;
-		case 1:
-		{
-				  bool x = fight(level);
-				  writeFinalBattleWords(x);
-				  level += x;
+            case 0: function = menu(level); break;
+            case 1:
+            {
+                bool x = fight(level);
+                writeFinalBattleWords(x);
 
-				  if (x && level % 5 == 1)
-				  {
-					  inventory.chooseChest();
-				  }
+                if (x && level % 5 == 0)
+                {
+                    inventory.chooseChest();
+                }
 
-				  if (x && level % 5 == 0) player.talant++; else
-				  if (x && level % 20 == 1) player.talant += 3; else
-				  if (x && level % 5 == 1) player.talant++;
+                level += x;
 
-				  function = 0;
-		}; break;
-		case 2: function = updateStats(); break;
+                if (x && level % 5 == 0) player.talant++; else
+                if (x && level % 20 == 1) player.talant += 3; else
+                if (x && level % 5 == 1) player.talant++;
+
+                function = 0;
+            }; break;
+            case 2: function = updateStats(); break;
 		}
 	}
 }
