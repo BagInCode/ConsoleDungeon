@@ -914,7 +914,7 @@ void askPreviousSave()
 
 	if (tryLoad(invent, per))
 	{
-		cout << "Do you want to continue previous game? If yes - press '1', else press '0'\n";
+		cout << "Save loaded\nDo you want to continue previous game? If yes - press '1', else press '0'\n";
 		while (1)
 		{
 			input = getch();
@@ -936,6 +936,8 @@ void askPreviousSave()
 	else
 	{
 		player.nickName = s;
+		cout << "No save with this name\nPress any key to continue";
+		getch();
 	}
 
 	wait();
