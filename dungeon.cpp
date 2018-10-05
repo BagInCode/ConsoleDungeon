@@ -172,10 +172,10 @@ class Inventory
             cout << "Inventory\n\n";
 
             cout << "Name:          Count: \n";
-            cout << "heal   (+10%) - " << cntHeal << "\n";
-            cout << "armor    (+2) - " << cntArmor << "\n";
-            cout << "attack (+10%) - " << cntAttack << "\n";
-            cout << "luck     (+2) - " << cntLuck << "\n\n";
+            cout << " heal   (+10%) - " << cntHeal << "\n";
+            cout << " armor    (+2) - " << cntArmor << "\n";
+            cout << " attack (+10%) - " << cntAttack << "\n";
+            cout << " luck     (+2) - " << cntLuck << "\n\n";
 
             cout << "Press to continue:\n";
             cout << "\t1 - heal\n";
