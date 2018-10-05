@@ -1,11 +1,44 @@
+#define notVisualStudio
+
+#ifdef VisualStudio
+
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <algorithm>
+#include <set>
+#include <map>
+#include <unordered_map>
+#include <deque>
+#include <cmath>
+#include <math.h>
+#include <string>
+#include <time.h>
+#include <random>
+#include <memory.h>
+#include <bitset>
+
+#else
+
 #include <bits/stdc++.h>
+
+#endif
+
+
+
 #include <windows.h>
 #include <conio.h>
 using namespace std;
 
+#ifdef VisualStudio
+#define getch _getch
+#endif
+
 #pragma
 #define clrscr system("CLS");
 #define sz size()
+
+
 
 const vector < string > chest =
 {
@@ -262,7 +295,7 @@ const vector < string > LegendarySkeletonAttack =
 "   # #"
 };
 
-inline void wait(int timeWaiting)
+inline void wait(int timeWaiting=0)
 {
     Sleep(timeWaiting);
     clrscr;
