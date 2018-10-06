@@ -601,8 +601,8 @@ inline bool fight(int level)
 		cout << "Press to continue:\n";
 		cout << "\ta - attack\n";
 		cout << "\td - defense\n";
-		cout << "\tq - make 50 extra damage (cost 5 mana)\n";
-		cout << "\te - make 2 extra luck (cost 5 mana)\n";
+		cout << "\tq - Holly Sword (make 75 damage, cost 10 mana)\n";
+		cout << "\te - Gods` Pleasure (add 3 luck, cost 10 mana)\n";
 		cout << "\ti - inventory\n";
 
 		input = getch();
@@ -637,15 +637,15 @@ inline bool fight(int level)
             }; break;
             case 'q':
             {
-                if (playerLocal.mana < 5)
+                if (playerLocal.mana < 10)
                 {
                     writeError();
                     continue;
                 }
                 else
                 {
-                    playerLocal.mana -= 5;
-                    mobLocal.health -= min(mobLocal.health, 50);
+                    playerLocal.mana -= 10;
+                    mobLocal.health -= min(mobLocal.health, 75);
 
                     wait(0);
 
@@ -656,16 +656,16 @@ inline bool fight(int level)
             }; break;
             case 'e':
             {
-                if (playerLocal.mana < 5)
+                if (playerLocal.mana < 10)
                 {
                     writeError();
                     continue;
                 }
                 else
                 {
-                    playerLocal.mana -= 5;
+                    playerLocal.mana -= 10;
 
-                    playerLocal.luck += 2;
+                    playerLocal.luck += 3;
 
                     wait(0);
 
@@ -714,40 +714,21 @@ inline bool fight(int level)
 	}
 }
 
-inline void help()
-{
-	wait(0);
-
-	cout << "Welcome to my game!\n";
-	cout << "In this game you have 4 stats: health, attack, armor and luck. On start you have 1000 health, 100 attack, 0 armor and 1 luck. Each stat can be updated by talant, which you get in battle with mobs.\n";
-	cout << "There are unlimited count of levels. On each of them you met one mob in battle. Each next mob will be harder then previous. But there are 3 types of mobs: standard, rare and legendary.\n";
-	cout << "Stats of mobs generate by next rules: on each next level standard mob get +10 health, on each 5th level - +10 attack, on each 20th level - +1 luck and armor. But you have to multiply all stat of standard mob on 1.15 for get stats of rare, and multiply on 1.25 to get stats of legendary\n";
-	cout << "If you defeat 4 standard bot - you get 1 talant, if you defeat rare - you get 1 talant and if you defeat legendary - you get 3 talant\n";
-	cout << "After each 5th win you get 3 chest with potion. But you have to choose one of them and you get the potion that is inside of your chest. This potion can update one of you stats on one battle. After finish your stats become normal again\n";
-	cout << "In battle you have to decide: attack or defense? If you pick attack then computer generate random value x from 0 to 100. Computer generate it as more times as you have luck and get on result maximum of all this x. Then your attack is calculated by formula: ((your_attack)*(x%))*((100-opponent_armor)%). If you pick defense than you make no attack, but you get +1 t your luck.\n";
-	cout << "That`s all. Press any key to begin\n";
-
-	getch();
-
-	wait(0);
-
-	return;
-}
-
 inline void hello()
 {
 	cout << "\tConsole Dungeon\n\n";
-	cout << "Creator:\n";
-	cout << "\tBagInCode\n";
-	cout << "\tBugInSystem\n";
-	cout << "\tReeWorld\n";
-	cout << "\tTheDarkness\n\n";
+	cout << "Creators:\n";
+	cout << "\tIdea:\n";
+	cout << "\t\tBugInSystem\n";
+	cout << "\tCode:\n";
+	cout << "\t\tBugInCode\n";
+	cout << "\t\tReeWorld\n";
+	cout << "\tTesting:\n";
+	cout << "\t\tTheDarkness\n\n";
 	cout << "Please, check that your console is full screen\n";
-	cout << "If you need help - press \'h\', if not - press any other key\n";
+	cout << "Press any key to continue...\n";
 
-	char input = getch();
-
-	if (input == 'h') help();
+	getch();
 
 	return;
 }
