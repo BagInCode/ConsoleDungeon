@@ -504,7 +504,13 @@ inline int updateStats()
                 {
                     player.talant -= 3;
                     player.armor += 3;
-                    player.armor = min(player.armor, 50);
+
+                    if(player.armor > 50)
+                    {
+                        player.talant += player.armor - 50;
+                        player.armor = 50;
+                    }
+
                     wait(0);
                 }
             }; break;
