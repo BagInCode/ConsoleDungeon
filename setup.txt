@@ -38,7 +38,10 @@ using namespace std;
 #define clrscr system("CLS");
 #define sz size()
 
-
+const int deltLuck = 100;
+const int deltArmor = 100;
+const int deltHealth = 1000;
+const int deltAttack = 100;
 
 const vector < string > chest =
 {
