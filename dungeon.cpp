@@ -124,7 +124,7 @@ class pers
 
     public: void generateMob(long long level)
     {
-        health += deltHealth / 10 * (level - 1);
+        health += deltHealth/10 * (level - 1);
         armor += level / 20 * 3 * deltArmor;
         attack += (level / 5) * deltAttack;
         luck += level / 20 * deltLuck;
@@ -1004,7 +1004,7 @@ bool tryLoad(Inventory &inv, pers &per)
 
 	if (cinf >> type >> stat)
 	{
-		if (type == "health"  && stat > 0)
+		if (type == "health"  && stat > 0 && stat % deltHealth == 0)
 		{
 			per.health = stat;
 		}
@@ -1014,7 +1014,7 @@ bool tryLoad(Inventory &inv, pers &per)
 
 	if (cinf >> type >> stat)
 	{
-		if (type == "armor"  && stat >= 0 && stat <= 50)
+		if (type == "armor"  && stat >= 0 && stat <= 50 * deltArmor && stat % deltArmor == 0)
 		{
 			per.armor = stat;
 		}
@@ -1024,7 +1024,7 @@ bool tryLoad(Inventory &inv, pers &per)
 
 	if (cinf >> type >> stat)
 	{
-		if (type == "luck"  && stat > 0)
+		if (type == "luck"  && stat > 0 && stat % deltLuck == 0)
 		{
 			per.luck = stat;
 		}
@@ -1034,7 +1034,7 @@ bool tryLoad(Inventory &inv, pers &per)
 
 	if (cinf >> type >> stat)
 	{
-		if (type == "attack"  && stat > 0)
+		if (type == "attack"  && stat > 0 && stat % deltAttack == 0)
 		{
 			per.attack = stat;
 		}
