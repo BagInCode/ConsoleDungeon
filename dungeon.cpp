@@ -1088,11 +1088,14 @@ bool tryLoad(Inventory &inv, pers &per)
 			}
 			else if (stat == 2)
 			{
+			    inv.lightArmor = true;
 				inv.middleArmor = true;
 				per.makePicture(MiddleArmorBase, MiddleArmorAttack, MiddleArmorDefense, stat);
 			}
 			else
 			{
+			    inv.lightArmor = true;
+				inv.middleArmor = true;
 				inv.heavyArmor = true;
 				per.makePicture(HeavyArmorBase, HeavyArmorAttack, HeavyArmorDefense, stat);
 			}
