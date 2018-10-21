@@ -1,9 +1,8 @@
 #include "setup.txt"
 
-bool fury;
-long long level = 1;
+ll level = 1;
 
-void myExit(long long inf);
+void myExit(ll inf);
 
 struct Pictures
 {
@@ -16,17 +15,17 @@ class pers
 {
     public:
         string nickName;
-        long long health = 10000;
-        long long armor = 0;
-        long long luck = 100;
-        long long attack = 1000;
-        long long typeArmor = 0;
-        long long talant = 0;
-        long long mana = 0;
+        ll health = 10000;
+        ll armor = 0;
+        ll luck = 100;
+        ll attack = 1000;
+        ll typeArmor = 0;
+        ll talant = 0;
+        ll mana = 0;
 
     public: Pictures pictures;
 
-    public: inline void makePicture(vector < string > Basick, vector < string > Attack, vector < string > Defense, long long type)
+    public: inline void makePicture(vector < string > Basick, vector < string > Attack, vector < string > Defense, ll type)
     {
         pictures.pictureAttack = Attack;
         pictures.pictureBasick = Basick;
@@ -45,11 +44,11 @@ class pers
         return;
     }
 
-    public: inline void writePicture(long long typePicture)
+    public: inline void writePicture(ll typePicture)
     {
         if (typePicture == 1)
         {
-            for (long long i = 0; i < pictures.pictureAttack.sz; i++)
+            for (ll i = 0; i < pictures.pictureAttack.sz; i++)
             {
                 cout << pictures.pictureAttack[i] << "\n";
             }
@@ -57,14 +56,14 @@ class pers
         else
         if (typePicture == 2)
         {
-            for (long long i = 0; i < pictures.pictureBasick.sz; i++)
+            for (ll i = 0; i < pictures.pictureBasick.sz; i++)
             {
                 cout << pictures.pictureBasick[i] << "\n";
             }
         }
         else
         {
-            for (long long i = 0; i < pictures.pictureDefense.sz; i++)
+            for (ll i = 0; i < pictures.pictureDefense.sz; i++)
             {
                 cout << pictures.pictureDefense[i] << "\n";
             }
@@ -84,11 +83,11 @@ class pers
         cout << "attack (luck):  " << attack/10 << "." << attack%10 << " (" << luck/deltLuck << ")\n";
         cout << "mana: ";
 
-        for (long long i = 1; i <= mana; i++)
+        for (ll i = 1; i <= mana; i++)
         {
             cout << char(248);
 
-            if (i % 10 == 0) cout << ' ';
+            if (i % 5 == 0) cout << ' ';
         }
 
         cout << "\n\n";
@@ -96,16 +95,16 @@ class pers
         return;
     }
 
-    public: inline long long calcAttack()
+    public: inline ll calcAttack()
     {
         srand(time(0));
 
-        long long valAttack;
-        long long maxPersent = 0;
+        ll valAttack;
+        ll maxPersent = 0;
 
-        for (long long i = 1; i <= luck/deltLuck; i++)
+        for (ll i = 1; i <= luck/deltLuck; i++)
         {
-            maxPersent = max(maxPersent, (long long)(rand() % 101));
+            maxPersent = max(maxPersent, (ll)(rand() % 101));
         }
 
         valAttack = (attack*maxPersent) / 100;
@@ -113,7 +112,7 @@ class pers
         return valAttack;
     }
 
-    public: void calcDamage(long long valAttack)
+    public: void calcDamage(ll valAttack)
     {
         valAttack = ((100 - armor/deltArmor)*valAttack) / 100;
 
@@ -122,7 +121,7 @@ class pers
         return;
     }
 
-    public: void generateMob(long long level)
+    public: void generateMob(ll level)
     {
         health += deltHealth/10 * (level - 1);
         armor += level / 20 * 3 * deltArmor;
@@ -174,27 +173,33 @@ class pers
         return;
     }
 
+    public: void setNickName(string & nick)
+    {
+        nickName = nick;
+        return;
+    }
+
 };
 
 pers player, mob;
 
 class Inventory
 {
-    public: long long cntSmallHeal = 0;
-    public: long long cntSmallArmor = 0;
-    public: long long cntSmallLuck = 0;
-    public: long long cntSmallAttack = 0;
+    public: ll cntSmallHeal = 0;
+    public: ll cntSmallArmor = 0;
+    public: ll cntSmallLuck = 0;
+    public: ll cntSmallAttack = 0;
 
-    public: long long cntBigHeal = 0;
-    public: long long cntBigArmor = 0;
-    public: long long cntBigLuck = 0;
-    public: long long cntBigAttack = 0;
+    public: ll cntBigHeal = 0;
+    public: ll cntBigArmor = 0;
+    public: ll cntBigLuck = 0;
+    public: ll cntBigAttack = 0;
 
     public: bool heavyArmor = 0;
     public: bool middleArmor = 0;
     public: bool lightArmor = 0;
 
-    inline void potion(pers & playerBasic, pers & playerCurent)
+    public: inline void usingPotion(pers & playerBasic, pers & playerCurent, bool & fury)
     {
         char input;
 
@@ -289,7 +294,7 @@ class Inventory
 				}; break;
 				case '3': /// Small attack (+15% attack, -1 luck)
 				{
-                    if (cntSmallAttack < 1 || playerCurent.luck < 2)
+                    if (cntSmallAttack < 1 || playerCurent.luck < 2*deltLuck)
                     {
                         writeError();
                     }
@@ -369,7 +374,7 @@ class Inventory
 				}; break;
 				case '7': /// Big attack (+25% attack, -2 luck)
 				{
-                    if (cntBigAttack < 1 || playerCurent.luck < 3)
+                    if (cntBigAttack < 1 || playerCurent.luck < 3*deltLuck)
                     {
                         writeError();
                     }
@@ -403,7 +408,7 @@ class Inventory
         }
     }
 
-    inline void chooseChest(bool rare)
+    public: inline void chooseChest(bool rare)
     {
         wait(0);
 
@@ -412,7 +417,7 @@ class Inventory
 
         while (1)
         {
-            for (long long i = 0; i < chest.sz; i++)
+            for (ll i = 0; i < chest.sz; i++)
             {
                 cout << chest[i] << "\n";
             }
@@ -421,7 +426,7 @@ class Inventory
 
             if (input == 'l' || input == 'r' || input == 'm')
             {
-                long long val;
+                ll val;
 
                 if(!heavyArmor)
                 {
@@ -549,11 +554,24 @@ class Inventory
             }
         }
     }
+
+    public: inline void setPotionsForMultiplayer()
+    {
+        cntSmallArmor = 2;
+        cntSmallAttack = 2;
+        cntSmallHeal = 2;
+        cntSmallLuck = 2;
+
+        cntBigArmor = 1;
+        cntBigAttack = 1;
+        cntBigHeal = 1;
+        cntBigLuck = 1;
+    }
 };
 
 Inventory inventory;
 
-inline long long menu(long long nexLevel)
+inline ll menu(ll nexLevel)
 {
 	wait(0);
 
@@ -578,6 +596,7 @@ inline long long menu(long long nexLevel)
 		cout << "Press to continue:\n";
 		cout << "\tn - next battle\n";
 		cout << "\tu - update stats (talant(s) - " << player.talant << ")\n";
+		cout << "\tm - multiplayer (new)\n";
 		cout << "\te - exit\n";
 
 		char input = getch();
@@ -586,13 +605,14 @@ inline long long menu(long long nexLevel)
 		{
             case 'n': return 1; break;
             case 'u': return 2; break;
+            case 'm': return 3; break;
             case 'e': myExit(0); break;
             default: writeError(); break;
 		}
 	}
 }
 
-inline long long updateStats()
+inline ll updateStats()
 {
 	char input;
 	pers playerCopy = player;
@@ -716,24 +736,28 @@ inline void writeFinalBattleWords(bool win)
 	return;
 }
 
-inline void move(pers player, long long pos1, pers mob, long long pos2, long long level)
+inline void move(pers player, ll pos1, pers mob, ll pos2, ll level, bool fury1, bool fury2 = 0, bool turn = 0, bool multiplayer = 0)
 {
-	wait(150);
+	wait(100);
 
-	cout << "Level: " << level << "\n\n";
+	if(!multiplayer)
+    {
+        cout << "Level: " << level << "\n\n";
+	}
+
 	player.writePicture(pos1);
-	player.writeStats(fury);
+	player.writeStats(fury1);
 	mob.writePicture(pos2);
-	mob.writeStats();
+	mob.writeStats(fury2);
 
 	return;
 }
 
-inline bool fight(long long level)
+inline bool fight(ll level)
 {
 	char input;
 
-	fury = 0;
+	bool fury = 0;
 
 	wait(0);
 
@@ -763,27 +787,30 @@ inline bool fight(long long level)
 		{
             case 'a':
             {
-                move(playerLocal, 2, mobLocal, 2, level);
-                move(playerLocal, 1, mobLocal, 2, level);
+                move(playerLocal, 2, mobLocal, 2, level, fury);
+                move(playerLocal, 1, mobLocal, 2, level, fury);
                 mobLocal.calcDamage(playerLocal.calcAttack());
-                move(playerLocal, 2, mobLocal, 2, level);
+                move(playerLocal, 2, mobLocal, 2, level, fury);
 
-                if (mobLocal.health == 0) return 1;
+                if (mobLocal.health == 0)
+                {
+                    return 1;
+                }
 
                 playerLocal.mana++;
             }; break;
             case 'd':
             {
-                move(playerLocal, 2, mobLocal, 2, level);
-                move(playerLocal, 3, mobLocal, 2, level);
+                move(playerLocal, 2, mobLocal, 2, level, fury);
+                move(playerLocal, 3, mobLocal, 2, level, fury);
                 playerLocal.defense();
-                move(playerLocal, 2, mobLocal, 2, level);
+                move(playerLocal, 2, mobLocal, 2, level, fury);
 
                 playerLocal.mana += 2;
             }; break;
             case 'i':
             {
-                inventory.potion(player, playerLocal);
+                inventory.usingPotion(player, playerLocal, fury);
                 wait(0);
                 continue;
             }; break;
@@ -801,7 +828,10 @@ inline bool fight(long long level)
 
                     wait(0);
 
-                    if (mobLocal.health == 0) return 1;
+                    if (mobLocal.health == 0)
+                    {
+                        return 1;
+                    }
 
                     continue;
                 }
@@ -837,18 +867,18 @@ inline bool fight(long long level)
 
 		if (input == 0)
 		{
-			move(playerLocal, 2, mobLocal, 2, level);
-			move(playerLocal, 2, mobLocal, 3, level);
+			move(playerLocal, 2, mobLocal, 2, level, fury);
+			move(playerLocal, 2, mobLocal, 3, level, fury);
 			mobLocal.defense();
-			move(playerLocal, 2, mobLocal, 2, level);
+			move(playerLocal, 2, mobLocal, 2, level, fury);
 			wait(0);
 		}
 		else
 		{
-			move(playerLocal, 2, mobLocal, 2, level);
-			move(playerLocal, 2, mobLocal, 1, level);
+			move(playerLocal, 2, mobLocal, 2, level, fury);
+			move(playerLocal, 2, mobLocal, 1, level, fury);
 			playerLocal.calcDamage(mobLocal.calcAttack());
-			move(playerLocal, 2, mobLocal, 2, level);
+			move(playerLocal, 2, mobLocal, 2, level, fury);
 			wait(0);
 
 			if (playerLocal.health == 0)
@@ -868,12 +898,12 @@ inline bool fight(long long level)
 
 inline void hello()
 {
-	cout << "\tConsole Dungeon (V-0.2.0)\n\n";
+	cout << "\tConsole Dungeon (V-0.3.0)\n\n";
 	cout << "Creators:\n";
 	cout << "\tIdea:\n";
 	cout << "\t\tBugInSystem\n";
 	cout << "\tCode:\n";
-	cout << "\t\tBugInCode\n";
+	cout << "\t\tBagInCode\n";
 	cout << "\t\tReeWorld\n";
 	cout << "\tTesting:\n";
 	cout << "\t\tTheDarkness\n\n";
@@ -888,7 +918,7 @@ inline void hello()
 void cheat()
 {
 	string password;
-	long long typeOfArmor;
+	ll typeOfArmor;
 
 	wait(0);
 
@@ -989,7 +1019,7 @@ void cheat()
 bool tryLoad(Inventory &inv, pers &per)
 {
 	string type;
-	long long stat, tlvl;
+	ll stat, tlvl;
 	ifstream cinf(per.nickName+".sf");
 
 	if (cinf >> type >> stat)
@@ -1170,27 +1200,27 @@ void askPreviousSave()
 	wait();
 
 	char input;
-	string s;
+	string nick;
 	pers per;
 	Inventory invent;
 
 	cout << "Write your nickname and press enter:\n";
 	while (1)
 	{
-		getline(cin, s);
-		if (s != "")
+		getline(cin, nick);
+		if (nick != "")
 		{
 			break;
 		}
 	}
-	for (auto &it : s)
+	for (auto &it : nick)
 	{
 		if (it == ' ')
 		{
 			it = '_';
 		}
 	}
-	per.nickName = s;
+	per.setNickName(nick);
 
 	if (tryLoad(invent, per))
 	{
@@ -1201,21 +1231,21 @@ void askPreviousSave()
 			if (input == '0')
 			{
 				level = 1;
-				player.nickName = s;
+				player.setNickName(nick);
 				break;
 			}
 			else if (input == '1')
 			{
 				player = per;
 				inventory = invent;
-				player.nickName = s;
+				player.setNickName(nick);
 				break;
 			}
 		}
 	}
 	else
 	{
-		player.nickName = s;
+		player.setNickName(nick);
 		cout << "No save with this name\nPress any key to continue";
 		getch();
 	}
@@ -1224,7 +1254,7 @@ void askPreviousSave()
 
 }
 
-void myExit(long long inf=0)
+void myExit(ll inf=0)
 {
 	ofstream coutf(player.nickName + ".sf");
 
@@ -1249,6 +1279,409 @@ void myExit(long long inf=0)
 	exit(inf);
 }
 
+void win(const string & nickName, const string & resultFirst, const string & resultSecond)
+{
+    wait(0);
+
+    cout << nickName << " win this round!\n\n";
+
+    cout << resultFirst << "\n";
+
+    for(int i = 0; i < resultFirst.sz; i++)
+    {
+        cout << "-";
+    }
+    cout << "|\n";
+
+    cout << resultSecond << "\n\n";
+
+    cout << "Press any key to continue\n";
+    getch();
+
+    wait(0);
+
+    return;
+}
+
+bool endOfGame(const string & nickName, const string & resultFirst, const string & resultSecond)
+{
+    wait(0);
+
+    char input;
+
+    cout << nickName << " win the battle!\n\n";
+
+    cout << resultFirst << "\n";
+
+    for(int i = 0; i < resultFirst.sz; i++)
+    {
+        cout << "-";
+    }
+    cout << "|\n";
+
+    cout << resultSecond << "\n\n";
+
+    cout << "Do you want to continue multiplayer?\n";
+    cout << "\ty - yes\n";
+    cout << "\tn - no\n";
+
+    input = getch();
+
+    while(1)
+    {
+        switch(input)
+        {
+            case 'y':
+            {
+                wait(0);
+                return 1;
+            };break;
+            case 'n':
+            {
+                wait(0);
+                return 0;
+            };break;
+            default : writeError(); break;
+        }
+
+        cout << "Do you want to continue multiplayer? (there is no turning back):\n";
+        cout << "\ty - yes\n";
+        cout << "\tn - no\n";
+
+        input = getch();
+    }
+}
+
+void multiplayer()
+{
+    char input;
+
+    wait();
+
+    while(1)
+    {
+        pers Player1, curentPlayer1;
+        pers Player2, curentPlayer2;
+        Inventory inv1, inv2;
+
+        string nickName, resultFirst, resultSecond;
+
+        Player1.makePicture(LightArmorBase, LightArmorAttack, LightArmorDefense, 2);
+        Player2.makePicture(LightArmorBase, LightArmorAttack, LightArmorDefense, 2);
+
+        inv1.setPotionsForMultiplayer();
+        inv2.setPotionsForMultiplayer();
+
+        getline(cin, nickName);
+
+        cout << "Write please nick of first player: ";
+        getline(cin, nickName);
+
+        if(nickName == "")
+        {
+            nickName = "Player1";
+        }
+
+        Player1.setNickName(nickName);
+        resultFirst = nickName;
+
+        cout << "Write please nick of second player: ";
+        getline(cin, nickName);
+
+        if(nickName == "")
+        {
+            nickName = "Player2";
+        }
+
+        Player2.setNickName(nickName);
+        resultSecond = nickName;
+
+        while(resultFirst.sz != resultSecond.sz)
+        {
+            if(resultFirst.sz < resultSecond.sz)
+            {
+                resultFirst = resultFirst + " ";
+            }else
+            {
+                resultSecond = resultSecond + " ";
+            }
+        }
+
+        resultFirst = resultFirst + ": ";
+        resultSecond = resultSecond + ": ";
+
+        while(Player1.health && Player2.health)
+        {
+            wait(0);
+
+            bool fury1 = 0;
+            bool fury2 = 0;
+
+            curentPlayer1 = Player1;
+            curentPlayer2 = Player2;
+
+            srand(time(0));
+            bool turn = rand()%2;
+
+            while(1)
+            {
+                curentPlayer1.writePicture(2);
+                curentPlayer1.writeStats(fury1);
+
+                curentPlayer2.writePicture(2);
+                curentPlayer2.writeStats(fury2);
+
+                if(turn)
+                {
+                    cout << "IT IS YOUR TURN, " << curentPlayer1.nickName << "\n\n";
+                }else
+                {
+                    cout << "IT IS YOUR TURN, " << curentPlayer2.nickName << "\n\n";
+                }
+
+                cout << "Press to continue:\n";
+                cout << "\ta - attack\n";
+                cout << "\td - defense\n";
+                cout << "\tq - Holly Sword (make 75 damage, cost 10 mana)\n";
+                cout << "\te - Gods` Pleasure (add 3 luck, cost 10 mana)\n";
+                cout << "\ti - inventory\n";
+
+                input = getch();
+
+                if(input == 'a')
+                {
+                    move(curentPlayer1, 2, curentPlayer2, 2, 0, fury1, fury2, turn, 1);
+
+                    if(turn)
+                    {
+                        move(curentPlayer1, 1, curentPlayer2, 2, 0, fury1, fury2, turn, 1);
+                        curentPlayer2.calcDamage(curentPlayer1.calcAttack());
+                        curentPlayer1.mana ++;
+
+                        if(curentPlayer2.health == 0)
+                        {
+                            Player1.health -= 1000;
+
+                            resultFirst = resultFirst + "I";
+                            resultSecond = resultSecond + "O";
+
+                            win(Player1.nickName, resultFirst, resultSecond);
+
+                            break;
+                        }else
+                        if(curentPlayer2.health < round(Player2.health * 0.1) && !fury2)
+                        {
+                            fury2 = 1;
+
+                            curentPlayer2.armor *= 1.5;
+                            curentPlayer2.attack *= 1.5;
+                            curentPlayer2.luck += deltLuck;
+                        }
+                    }else
+                    {
+                        move(curentPlayer1, 2, curentPlayer2, 1, 0, fury1, fury2, turn, 1);
+                        curentPlayer1.calcDamage(curentPlayer2.calcAttack());
+                        curentPlayer2.mana ++;
+
+                        if(curentPlayer1.health == 0)
+                        {
+                            Player2.health -= 1000;
+
+                            resultFirst = resultFirst + "O";
+                            resultSecond = resultSecond + "I";
+
+                            win(Player2.nickName, resultFirst, resultSecond);
+
+                            break;
+                        }else
+                        if(curentPlayer1.health < round(Player1.health * 0.1) && !fury1)
+                        {
+                            fury1 = 1;
+
+                            curentPlayer1.attack *= 1.5;
+                            curentPlayer1.armor *= 1.5;
+                            curentPlayer1.luck += deltLuck;
+                        }
+                    }
+
+                    move(curentPlayer1, 2, curentPlayer2, 2, 0, fury1, fury2, turn, 1);
+
+                    wait();
+
+                    turn = !turn;
+                }else
+                if(input == 'd')
+                {
+                    move(curentPlayer1, 2, curentPlayer2, 2, 0, fury1, fury2, turn, 1);
+
+                    if(turn)
+                    {
+                        move(curentPlayer1, 3, curentPlayer2, 2, 0, fury1, fury2, turn, 1);
+                        curentPlayer1.defense();
+                        curentPlayer1.mana += 2;
+                    }else
+                    {
+                        move(curentPlayer1, 2, curentPlayer2, 3, 0, fury1, fury2, turn, 1);
+                        curentPlayer2.defense();
+                        curentPlayer2.mana += 2;
+                    }
+
+                    move(curentPlayer1, 2, curentPlayer2, 2, 0, fury1, fury2, turn, 1);
+
+                    wait();
+
+                    turn = !turn;
+                }else
+                if(input == 'i')
+                {
+                    if(turn)
+                    {
+                        inv1.usingPotion(Player1, curentPlayer1, fury1);
+                    }else
+                    {
+                        inv2.usingPotion(Player2, curentPlayer2, fury2);
+                    }
+
+                    wait(0);
+                    continue;
+                }else
+                if(input == 'q')
+                {
+                    if(turn)
+                    {
+                        if (curentPlayer1.mana < 10)
+                        {
+                            writeError();
+                            continue;
+                        }
+                        else
+                        {
+                            curentPlayer1.mana -= 10;
+                            curentPlayer2.health -= min(curentPlayer2.health, 750ll);
+
+                            wait(0);
+
+                            if(curentPlayer2.health == 0)
+                            {
+                                Player1.health -= 1000;
+
+                                resultFirst = resultFirst + "I";
+                                resultSecond = resultSecond + "O";
+
+                                win(Player1.nickName, resultFirst, resultSecond);
+
+                                break;
+                            }else
+                            if(curentPlayer2.health < round(Player2.health * 0.1) && !fury2)
+                            {
+                                fury2 = 1;
+
+                                curentPlayer2.armor *= 1.5;
+                                curentPlayer2.attack *= 1.5;
+                                curentPlayer2.luck += deltLuck;
+                            }
+
+                            wait(0);
+
+                            continue;
+                        }
+                    }else
+                    {
+                        if (curentPlayer2.mana < 10)
+                        {
+                            writeError();
+                            continue;
+                        }
+                        else
+                        {
+                            curentPlayer2.mana -= 10;
+                            curentPlayer1.health -= min(curentPlayer2.health, 750ll);
+
+                            wait(0);
+
+                            if(curentPlayer1.health == 0)
+                            {
+                                Player1.health -= 1000;
+
+                                resultFirst = resultFirst + "O";
+                                resultSecond = resultSecond + "I";
+
+                                win(Player2.nickName, resultFirst, resultSecond);
+
+                                break;
+                            }else
+                            if(curentPlayer1.health < round(Player1.health * 0.1) && !fury1)
+                            {
+                                fury1 = 1;
+
+                                curentPlayer1.armor *= 1.5;
+                                curentPlayer1.attack *= 1.5;
+                                curentPlayer1.luck += deltLuck;
+                            }
+
+                            wait(0);
+
+                            continue;
+                        }
+                    }
+                }else
+                if(input == 'e')
+                {
+                    if(turn)
+                    {
+                        if(curentPlayer1.mana < 10)
+                        {
+                            writeError();
+                            continue;
+                        }else
+                        {
+                            curentPlayer1.mana -= 10;
+                            curentPlayer1.luck += 3*deltLuck;
+
+                            wait(0);
+
+                            continue;
+                        }
+                    }else
+                    {
+                        if(curentPlayer2.mana < 10)
+                        {
+                            writeError();
+                            continue;
+                        }else
+                        {
+                            curentPlayer2.mana -= 10;
+                            curentPlayer2.luck += 3*deltLuck;
+
+                            wait(0);
+
+                            continue;
+                        }
+                    }
+                }else
+                {
+                    writeError();
+                    continue;
+                }
+            }
+        }
+
+        if(Player1.health)
+        {
+            if(!endOfGame(Player1.nickName, resultFirst, resultSecond))
+            {
+                return;
+            }
+        }else
+        {
+            if(!endOfGame(Player2.nickName, resultFirst, resultSecond))
+            {
+                return;
+            }
+        }
+    }
+}
+
 int main()
 {
 	player.makePicture(WithoutArmorBase, WithoutArmorAttack, WithoutArmorDefense, 0);
@@ -1257,7 +1690,7 @@ int main()
 	askPreviousSave();
 	cheat();
 
-	long long function = 0;
+	ll function = 0;
 
 	while (1)
 	{
@@ -1283,6 +1716,11 @@ int main()
                 function = 0;
             }; break;
             case 2: function = updateStats(); break;
+            case 3:
+            {
+                function = 0;
+                multiplayer();
+            };
 		}
 	}
 }
