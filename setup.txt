@@ -37,6 +37,7 @@ using namespace std;
 #pragma
 #define clrscr system("CLS");
 #define sz size()
+#define ll long long
 
 const int deltLuck = 100;
 const int deltArmor = 100;
@@ -45,14 +46,14 @@ const int deltAttack = 100;
 
 const vector < string > chest =
 {
-"     Choose one chest with potion",
-"",
-"  ________     ________     ________",
-" /        \\   /        \\   /        \\",
-"+----------+ +----------+ +----------+",
-"|          | |          | |          |",
-"|          | |          | |          |",
-"+----------+ +----------+ +----------+",
+"     Choose one chest with potion ",
+" ",
+"  ________     ________     ________ ",
+" /        \\   /        \\   /        \\ ",
+"+----------+ +----------+ +----------+ ",
+"|          | |          | |          | ",
+"|          | |          | |          | ",
+"+----------+ +----------+ +----------+ ",
 "",
 "Press to choose:",
 "l - left",
@@ -62,206 +63,206 @@ const vector < string > chest =
 
 const vector < string > WithoutArmorBase =
 {
-"   xxx",
-"  xoxox",
-"   x-x     /",
-"  xIxIx   /",
-" x III x\\/",
-"x  -D-  x\\",
-"   I I",
-"   x x"
+"   xxx ",
+"  xoxox ",
+"   x-x     / ",
+"  xIxIx   / ",
+" x III x\\/ ",
+"x  -D-  x\\ ",
+"   I I ",
+"   x x "
 };
 const vector < string > WithoutArmorAttack =
 {
-"   xxx",
-"  xoxox",
-"   xox    |",
-"  xIxIxxxx|----",
-" x III    |",
-"x  -D-",
-"   I I",
-"   x x"
+"   xxx ",
+"  xoxox ",
+"   xOx    | ",
+"  xIxIxxxx|---- ",
+" x III    | ",
+"x  -D- ",
+"   I I ",
+"   x x "
 };
 const vector < string > WithoutArmorDefense =
 {
-"",
-"   xxx   |",
-"  x-x-x  |",
-"   xox  _|_",
-"  xIxIxxxx",
-" x III    ",
-"x  IDI",
-"   x x"
+" ",
+"   xxx   | ",
+"  x~x~x  | ",
+"   xOx  _|_ ",
+"  xIxIxxxx ",
+" x III ",
+"x  IDI ",
+"   x x "
 };
 
 const vector < string > LightArmorBase =
 {
-"   ###",
-"  #o#o#",
-"  #x-x#    /",
-"  x#x#x   /",
-" x ### x\\/",
-"x  -D-  x\\",
-"   # #",
-"   x x"
+"   ### ",
+"  #o#o# ",
+"  #x-x#    / ",
+"  x#x#x   / ",
+" x ### x\\/ ",
+"x  -D-  x\\ ",
+"   # # ",
+"   x x "
 };
 const vector < string > LightArmorAttack =
 {
-"   ###",
-"  #o#o#",
-"  #xox#   |",
-"  x#x#xxxx|----",
-" x ###    |",
-"x  -D-",
-"   # #",
-"   x x"
+"   ### ",
+"  #o#o# ",
+"  #xOx#   | ",
+"  x#x#xxxx|---- ",
+" x ###    | ",
+"x  -D- ",
+"   # # ",
+"   x x "
 };
 const vector < string > LightArmorDefense =
 {
-"",
-"   ###   |",
-"  #-#-#  |",
-"  #xox# _|_",
-"  x#x#xxxx",
-" x ###    ",
-"x  #D#",
-"   x x"
+" ",
+"   ###   | ",
+"  #~#~#  | ",
+"  #xOx# _|_ ",
+"  x#x#xxxx ",
+" x ### ",
+"x  #D# ",
+"   x x "
 };
 
 const vector < string > MiddleArmorBase =
 {
-"  #####",
-"  #o#o#",
-"  #x-x#    /",
-"  #####   /",
-" # ### #\\/",
-"x  ###  x\\",
-"   # #",
-"   x x"
+"  ##### ",
+"  #o#o# ",
+"  #x-x#    / ",
+"  #####   / ",
+" # ### #\\/ ",
+"x  ###  x\\ ",
+"   # # ",
+"   x x "
 };
 const vector < string > MiddleArmorAttack =
 {
-"  #####",
-"  #o#o#",
-"  #xox#   |",
-"  ######xx|----",
-" # ###    |",
-"x  ###",
-"   # #",
-"   x x"
+"  ##### ",
+"  #o#o# ",
+"  #xOx#   | ",
+"  ######xx|---- ",
+" # ###    | ",
+"x  ### ",
+"   # # ",
+"   x x "
 };
 const vector < string > MiddleArmorDefense =
 {
-"",
-"  #####  |",
-"  #-#-#  |",
-"  #xox# _|_",
-"  ######xx",
-" # ###    ",
-"x  ###",
-"   x x"
+" ",
+"  #####  | ",
+"  #~#~#  | ",
+"  #xOx# _|_ ",
+"  ######xx ",
+" # ###     ",
+"x  ### ",
+"   x x "
 };
 
 const vector < string > HeavyArmorBase =
 {
-"  #####",
-"  #o#o#",
-"  #####    /",
-"  #####   /",
-" # ### #\\/",
-"#  ###  #\\",
-"   # #",
-"   # #"
+"  ##### ",
+"  #o#o# ",
+"  #####    / ",
+"  #####   / ",
+" # ### #\\/ ",
+"#  ###  #\\ ",
+"   # # ",
+"   # # "
 };
 const vector < string > HeavyArmorAttack =
 {
-"  #####",
-"  #o#o#",
-"  #####   |",
-"  ########|---",
-" # ###    |",
-"#  ###",
-"   # #",
-"   # #"
+"  ##### ",
+"  #o#o# ",
+"  #####   | ",
+"  ########|--- ",
+" # ###    | ",
+"#  ### ",
+"   # # ",
+"   # # "
 };
 const vector < string > HeavyArmorDefense =
 {
-"",
-"  #####  |",
-"  #-#-#  |",
-"  ##### _|_",
-"  ########",
-" # ###",
-"#  ###",
-"   # #"
+" ",
+"  #####  | ",
+"  #~#~#  | ",
+"  ##### _|_ ",
+"  ######## ",
+" # ### ",
+"#  ### ",
+"   # # "
 };
 
 const vector < string > SkeletonDefense =
 {
-"",
-"   xxx   |",
-"  x x x  |",
-"   III  _|_",
-"  /-I-----",
-" / -I-    ",
-"/  |I|",
-"   | |"
+" ",
+"   ___   | ",
+"  | | |  | ",
+"   III  _|_ ",
+"  /-I----- ",
+" / -I- ",
+"/  |I| ",
+"   | | "
 };
 const vector < string > SkeletonBase =
 {
-"   xxx",
-"  x x x",
-"   III     /",
-"  /-I-\\   /",
-" / -I- \\\\/   ",
-"/   I   \\\\",
-"   | |",
-"   | |"
+"   ___ ",
+"  | | | ",
+"   III     / ",
+"  /-I-\\   / ",
+" / -I- \\\\/ ",
+"/   I   \\\\ ",
+"   | | ",
+"   | | "
 };
 const vector < string > SkeletonAttack =
 {
-"   xxx",
-"  x x x",
-"   III    |",
-"  /-I-----|----",
-" / -I-    |",
+"   ___ ",
+"  | | | ",
+"   III    | ",
+"  /-I-----|---- ",
+" / -I-    | ",
 "/   I ",
-"   | |",
-"   | |"
+"   | | ",
+"   | | "
 };
 
 const vector < string > RareSkeletonDefense =
 {
-"",
-"   ###   |",
-"  # x #  |",
-"  #III# _|_",
-"  ##I##---",
-" / ###    ",
-"/  #D#",
-"   | |"
+" ",
+"   ###   | ",
+"  # | #  | ",
+"  #III# _|_ ",
+"  ##I##---  ",
+" / ### ",
+"/  #D# ",
+"   | | "
 };
 const vector < string > RareSkeletonBase =
 {
-"   ###",
-"  # x #",
-"  #III#    /",
-"  ##I##   /",
-" / ### \\\\/   ",
-"/  -D-  \\\\",
-"   # #",
-"   | |"
+"   ### ",
+"  # | # ",
+"  #III#    / ",
+"  ##I##   / ",
+" / ### \\\\/ ",
+"/  -D-  \\\\ ",
+"   # # ",
+"   | | "
 };
 const vector < string > RareSkeletonAttack =
 {
-"   ###",
-"  # x #",
-"  #III#   |",
-"  ##I##---|----",
-" / ###    |",
-"/  -D-",
-"   # #",
-"   | |"
+"   ### ",
+"  # | # ",
+"  #III#   | ",
+"  ##I##---|---- ",
+" / ###    | ",
+"/  -D- ",
+"   # # ",
+"   | | "
 };
 
 const vector < string > LegendarySkeletonDefense =
@@ -271,7 +272,7 @@ const vector < string > LegendarySkeletonDefense =
 "         |",
 "        _|_",
 "  ########",
-" # ###    ",
+" # ###",
 "#  ###",
 "   # #"
 };
@@ -281,7 +282,7 @@ const vector < string > LegendarySkeletonBase =
 "",
 "           /",
 "  #####   /",
-" # ### #\\/   ",
+" # ### #\\/",
 "#  ###  #\\",
 "   # #",
 "   # #"
@@ -298,7 +299,7 @@ const vector < string > LegendarySkeletonAttack =
 "   # #"
 };
 
-inline void wait(int timeWaiting=0)
+inline void wait(int timeWaiting = 0)
 {
     Sleep(timeWaiting);
     clrscr;
