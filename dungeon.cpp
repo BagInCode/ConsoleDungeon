@@ -50,7 +50,13 @@ class pers
         {
             for (ll i = 0; i < pictures.pictureAttack.sz; i++)
             {
-                cout << pictures.pictureAttack[i] << "\n";
+                for(int j = 0; j < pictures.pictureAttack[i].sz; j++)
+                {
+                    SetConsoleTextAttribute(hConsole, colors[pictures.pictureAttack[i][j]]);
+                    cout << pictures.pictureAttack[i][j];
+                }
+
+                cout << "\n";
             }
         }
         else
@@ -58,16 +64,30 @@ class pers
         {
             for (ll i = 0; i < pictures.pictureBasick.sz; i++)
             {
-                cout << pictures.pictureBasick[i] << "\n";
+                for(int j = 0; j < pictures.pictureBasick[i].sz; j++)
+                {
+                    SetConsoleTextAttribute(hConsole, colors[pictures.pictureBasick[i][j]]);
+                    cout << pictures.pictureBasick[i][j];
+                }
+
+                cout << "\n";
             }
         }
         else
         {
             for (ll i = 0; i < pictures.pictureDefense.sz; i++)
             {
-                cout << pictures.pictureDefense[i] << "\n";
+                for(int j = 0; j < pictures.pictureDefense[i].sz; j++)
+                {
+                    SetConsoleTextAttribute(hConsole, colors[pictures.pictureDefense[i][j]]);
+                    cout << pictures.pictureDefense[i][j];
+                }
+
+                cout << "\n";
             }
         }
+
+        mainColor;
 
         return;
     }
@@ -738,7 +758,7 @@ inline void writeFinalBattleWords(bool win)
 
 inline void move(pers player, ll pos1, pers mob, ll pos2, ll level, bool fury1, bool fury2 = 0, bool turn = 0, bool multiplayer = 0)
 {
-	wait(100);
+	wait(50);
 
 	if(!multiplayer)
     {
@@ -898,7 +918,7 @@ inline bool fight(ll level)
 
 inline void hello()
 {
-	cout << "\tConsole Dungeon (V-0.3.0)\n\n";
+	cout << "\tConsole Dungeon (V-0.3.1)\n\n";
 	cout << "Creators:\n";
 	cout << "\tIdea:\n";
 	cout << "\t\tBugInSystem\n";
@@ -922,11 +942,11 @@ void cheat()
 
 	wait(0);
 
-	cout << "If you are developer or tester, please enter developers password\n(looking for password in code of game, function \'cheat\'):\n";
+	cout << "If you are developer or tester, please enter developers password:\n";
 	cin >> password;
 	cout << "\n";
 
-	if (password == "Julick_ne_voruy")
+	if (password == "qwerty1234567890")
 	{
 		cout << "You want to begin from level: ";
 		cin >> level;
@@ -1088,14 +1108,11 @@ bool tryLoad(Inventory &inv, pers &per)
 			}
 			else if (stat == 2)
 			{
-			    inv.lightArmor = true;
 				inv.middleArmor = true;
 				per.makePicture(MiddleArmorBase, MiddleArmorAttack, MiddleArmorDefense, stat);
 			}
 			else
 			{
-			    inv.lightArmor = true;
-				inv.middleArmor = true;
 				inv.heavyArmor = true;
 				per.makePicture(HeavyArmorBase, HeavyArmorAttack, HeavyArmorDefense, stat);
 			}
@@ -1671,13 +1688,13 @@ void multiplayer()
 
         if(Player1.health)
         {
-            if(!endOfGame(Player1.nickName, resultFirst, resultSecond))
+            if(!endOfGame(Player2.nickName, resultFirst, resultSecond))
             {
                 return;
             }
         }else
         {
-            if(!endOfGame(Player2.nickName, resultFirst, resultSecond))
+            if(!endOfGame(Player1.nickName, resultFirst, resultSecond))
             {
                 return;
             }
@@ -1687,6 +1704,8 @@ void multiplayer()
 
 int main()
 {
+    setColors();
+
 	player.makePicture(WithoutArmorBase, WithoutArmorAttack, WithoutArmorDefense, 0);
 
 	hello();
