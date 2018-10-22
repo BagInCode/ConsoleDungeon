@@ -38,6 +38,7 @@ using namespace std;
 #define clrscr system("CLS");
 #define sz size()
 #define ll long long
+#define mainColor SetConsoleTextAttribute(hConsole,15);
 
 const int deltLuck = 100;
 const int deltArmor = 100;
@@ -65,7 +66,7 @@ const vector < string > WithoutArmorBase =
 {
 "   xxx ",
 "  xoxox ",
-"   x-x     / ",
+"   x=x     / ",
 "  xIxIx   / ",
 " x III x\\/ ",
 "x  -D-  x\\ ",
@@ -99,7 +100,7 @@ const vector < string > LightArmorBase =
 {
 "   ### ",
 "  #o#o# ",
-"  #x-x#    / ",
+"  #x=x#    / ",
 "  x#x#x   / ",
 " x ### x\\/ ",
 "x  -D-  x\\ ",
@@ -133,7 +134,7 @@ const vector < string > MiddleArmorBase =
 {
 "  ##### ",
 "  #o#o# ",
-"  #x-x#    / ",
+"  #x=x#    / ",
 "  #####   / ",
 " # ### #\\/ ",
 "x  ###  x\\ ",
@@ -298,6 +299,27 @@ const vector < string > LegendarySkeletonAttack =
 "   # #",
 "   # #"
 };
+
+HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+map < char, int > colors;
+
+void setColors()
+{
+    colors['#'] = 8;
+    colors['|'] = 15;
+    colors['\\'] = 15;
+    colors['/'] = 15;
+    colors['-'] = 15;
+    colors['_'] = 15;
+    colors['I'] = 15;
+    colors['O'] = 4;
+    colors['='] = 4;
+    colors['o'] = 1;
+    colors['~'] = 6;
+    colors['x'] = 6;
+    colors['D'] = 15;
+    colors[' '] = 15;
+}
 
 inline void wait(int timeWaiting = 0)
 {
